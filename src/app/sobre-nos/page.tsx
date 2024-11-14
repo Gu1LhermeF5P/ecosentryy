@@ -1,36 +1,104 @@
+'use client'
+import Link from "next/link";
 import Header from "../components/header";
 import Image from "next/image";
+import { FaArrowRight } from "react-icons/fa";
+import Footer from "../components/footer";
 
 export default function Sobrenos() {
-    return (
-        <main>
-            <Header />
-            <div className="w-full h-1 bg-gray-400"></div>
-            <div className="relative items-end w-full h-screen overflow-hidden">
-                <Image className="w-full h-screen object-cover" src="/favela.jpg" alt="banner_favela" width={1000} height={500} />
-                <div className="absolute inset-0 bg-gradient-to-l from-transparent to-black opacity-50"></div>
-                
-                {/* Adicionando título e texto */}
-                <div className="absolute inset-0 flex flex-col justify-start items-start text-left text-white m-10 p-4">
-                    <h1 className="text-7xl font-bold mb-6 mt-64">ECO SENTRY</h1>
-                    <h2 className="text-5xl font-bold mb-6">Acessibilidade e Inclusão</h2>
-                    <p className="text-2xl font-semibold max-w-lg mb-6">
-                        Com notificações, recomendações personalizadas e 
-                        rankings de sustentabilidade, a plataforma motiva os usuários 
-                        a adotarem hábitos mais verdes. Isso gera 
-                        engajamento e cria um senso de competição positiva.
-                    </p>
-                    {/* Botões */}
-                    <div className="flex space-x-4  ml-10 mt-5">
-                        <button className="bg-black hover:opacity-65 transition duration-300 text-white font-bold py-2 px-10 rounded-full">
-                            Serviços
-                        </button>
-                        <button className="bg-white hover:opacity-65 transition duration-300 text-black font-bold py-2 px-10 rounded-full">
-                            Projeto
-                        </button>
-                    </div>
-                </div>                               
+  return (
+    <main>
+      <Header />
+      <div className="w-full h-2 bg-gray-400"></div>
+      <div className="relative w-full h-[70vh] overflow-hidden">
+        <Image
+          className="w-full h-full object-cover"
+          src="/favela.jpg"
+          alt="banner_favela"
+          width={1920}
+          height={1080}
+        />
+        <div className="absolute inset-0 bg-gradient-to-l from-transparent to-black opacity-50"></div>
+
+        {/* Conteúdo Principal */}
+        <div className="absolute inset-0 flex flex-col justify-center items-start text-white px-6 sm:px-12 py-4">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4">ECO SENTRY</h1>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Acessibilidade e Inclusão</h2>
+          <p className="text-base sm:text-lg md:text-xl font-medium max-w-lg mb-4">
+            Com notificações, recomendações personalizadas e rankings de sustentabilidade,
+            a plataforma motiva os usuários a adotarem hábitos mais verdes. Isso gera
+            engajamento e cria um senso de competição positiva.
+          </p>
+          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-4">
+            <Link href="/servicos">
+              <button className="bg-black hover:opacity-80 transition duration-300 text-white font-bold py-3 px-6 text-base sm:text-lg rounded-full">
+                Serviços
+              </button>
+            </Link>
+            <Link href="/projetos">
+              <button className="bg-white hover:opacity-80 transition duration-300 text-black font-bold py-3 px-6 text-base sm:text-lg rounded-full">
+                Projeto
+              </button>
+            </Link>
+          </div>
+        </div>
+
+        {/* Bloco de Texto Lateral */}
+        <div className="absolute top-1/3 right-4 sm:right-16 bg-gray-500 bg-opacity-80 p-4 sm:p-6 rounded-lg shadow-lg max-w-xs">
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-2">Sustentabilidade</h2>
+          <p className="text-white text-sm sm:text-base mb-2">
+            Descubra como a sustentabilidade pode ser incorporada de forma prática em nossas vidas.
+          </p>
+          <Link href="/sustentabilidade">
+            <button className="bg-lime-300 text-black h-10 w-10 sm:h-12 sm:w-12 rounded-full flex items-center justify-center">
+              <FaArrowRight className="-rotate-45" />
+            </button>
+          </Link>
+        </div>
+      </div>
+
+      <section className="mt-12 mb-12 px-4">
+        <div className="flex justify-center items-center min-h-[90vh]">
+          <div className="flex flex-col sm:flex-row w-full max-w-4xl rounded-xl shadow-lg overflow-hidden">
+            
+            {/* Imagem */}
+            <div className="w-full sm:w-1/2 h-48 sm:h-auto relative">
+              <Image 
+                src="/carrosel_img2.jpg"
+                alt="energia renovável"
+                width={1000}
+                height={1000}
+                className="object-cover w-full h-full"
+              />
+              {/* Carrossel */}
+              <div className="absolute bottom-2 w-full flex justify-center">
+                <div className="space-x-2 flex">
+                  <span className="h-3 w-3 bg-lime-300 rounded-full"></span>
+                  <span className="h-3 w-3 border-2 border-lime-300 rounded-full"></span>
+                  <span className="h-3 w-3 border-2 border-lime-300 rounded-full"></span>
+                  <span className="h-3 w-3 border-2 border-lime-300 rounded-full"></span>
+                </div>
+              </div>
             </div>
-        </main>
-    );
+
+            {/* Texto */}
+            <div className="w-full sm:w-1/2 bg-lime-300 p-6 sm:p-12 flex flex-col justify-center">
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">Sobre Nós</h2>
+              <p className="text-base sm:text-lg mb-6">
+                Sit at aut eaque corporis, provident reiciendis impedit. Descubra mais sobre nossas iniciativas e impacto.
+              </p>
+              <Link href="/sobre-nos">
+                <button className="text-black font-bold py-3 px-8 rounded-full border-2 border-black shadow-md text-lg flex items-center space-x-2">
+                  <span>ler mais</span>
+                  <FaArrowRight className="-rotate-45" />
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </main>
+  );
 }
