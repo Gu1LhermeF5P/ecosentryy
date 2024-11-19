@@ -6,6 +6,7 @@ import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
 import Footer from "../components/footer";
 
+// Array de imagens para o slideshow
 const images = [
   { src: '/carrosel_img4.jpg', alt: 'Imagem 1' },
   { src: '/carrosel_img2.jpg', alt: 'Imagem 2' },
@@ -15,11 +16,12 @@ const images = [
 export default function Sobrenos() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000); // Altere o tempo (3000ms) conforme necessário
-    return () => clearInterval(interval);
+    }, 5000); 
+    return () => clearInterval(interval); 
   }, []);
 
   return (
@@ -30,9 +32,10 @@ export default function Sobrenos() {
         <Image
           className="w-full h-full object-cover"
           src="/favela.jpg"
-          alt="banner_favela"
+          alt="banner favela"
           width={1920}
           height={1080}
+          priority 
         />
         <div className="absolute inset-0 bg-gradient-to-l from-transparent to-black opacity-50"></div>
 
@@ -47,12 +50,12 @@ export default function Sobrenos() {
           </p>
           <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-4">
             <Link href="/servicos">
-              <button className="bg-black hover:opacity-80 transition duration-300 text-white font-bold py-3 px-6 text-base sm:text-lg rounded-full">
+              <button className="bg-black hover:opacity-60 transition duration-300 text-white font-bold py-3 px-6 text-base sm:text-lg rounded-full">
                 Serviços
               </button>
             </Link>
             <Link href="/projetos">
-              <button className="bg-white hover:opacity-80 transition duration-300 text-black font-bold py-3 px-6 text-base sm:text-lg rounded-full">
+              <button className="bg-white hover:opacity-60 transition duration-300 text-black font-bold py-3 px-6 text-base sm:text-lg rounded-full">
                 Projeto
               </button>
             </Link>
@@ -66,7 +69,7 @@ export default function Sobrenos() {
             Descubra como a sustentabilidade pode ser incorporada de forma prática em nossas vidas.
           </p>
           <Link href="/sustentabilidade">
-            <button className="bg-lime-300 text-black h-10 w-10 sm:h-12 sm:w-12 rounded-full flex items-center justify-center">
+            <button aria-label="Ir para sustentabilidade" className="bg-lime-300 text-black h-10 w-10 sm:h-12 sm:w-12 rounded-full flex items-center justify-center">
               <FaArrowRight className="-rotate-45" />
             </button>
           </Link>
@@ -112,6 +115,7 @@ export default function Sobrenos() {
           </div>
         </div>
       </section>
+
       <Footer />
     </main>
   );
