@@ -1,11 +1,27 @@
 'use client'
+import { useState, useEffect } from 'react';
 import Link from "next/link";
 import Header from "../components/header";
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
 import Footer from "../components/footer";
 
+const images = [
+  { src: '/carrosel_img4.jpg', alt: 'Imagem 1' },
+  { src: '/carrosel_img2.jpg', alt: 'Imagem 2' },
+  { src: '/carrosel_img3.jpg', alt: 'Imagem 3' }
+];
+
 export default function Sobrenos() {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 3000); // Altere o tempo (3000ms) conforme necessário
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <main>
       <Header />
@@ -60,28 +76,27 @@ export default function Sobrenos() {
       <section className="mt-12 mb-12 px-4">
         <div className="flex justify-center items-center min-h-[90vh]">
           <div className="flex flex-col sm:flex-row w-full max-w-4xl rounded-xl shadow-lg overflow-hidden">
-            
-            {/* Imagem */}
+
+            {/* Slideshow de Imagens */}
             <div className="w-full sm:w-1/2 h-48 sm:h-auto relative">
-              <Image 
-                src="/carrosel_img2.jpg"
-                alt="energia renovável"
+              <Image
+                src={images[currentImageIndex].src}
+                alt={images[currentImageIndex].alt}
                 width={1000}
                 height={1000}
                 className="object-cover w-full h-full"
               />
-              {/* Carrossel */}
+              {/* Indicadores do Carrossel */}
               <div className="absolute bottom-2 w-full flex justify-center">
-                <div className="space-x-2 flex">
-                  <span className="h-3 w-3 bg-lime-300 rounded-full"></span>
-                  <span className="h-3 w-3 border-2 border-lime-300 rounded-full"></span>
-                  <span className="h-3 w-3 border-2 border-lime-300 rounded-full"></span>
-                  <span className="h-3 w-3 border-2 border-lime-300 rounded-full"></span>
-                </div>
+                {images.map((_, index) => (
+                  <span
+                    key={index}
+                    className={`h-3 w-3 ${currentImageIndex === index ? 'bg-lime-300' : 'border-2 border-lime-300'} rounded-full mx-1`}
+                  ></span>
+                ))}
               </div>
             </div>
 
-            {/* Texto */}
             <div className="w-full sm:w-1/2 bg-lime-300 p-6 sm:p-12 flex flex-col justify-center">
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">Sobre Nós</h2>
               <p className="text-base sm:text-lg mb-6">
@@ -97,7 +112,6 @@ export default function Sobrenos() {
           </div>
         </div>
       </section>
-
       <Footer />
     </main>
   );

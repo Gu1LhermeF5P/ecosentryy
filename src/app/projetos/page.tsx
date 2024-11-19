@@ -87,7 +87,7 @@ export default function Projeto() {
                                     height={1200} 
                                     className="w-full h-40 sm:h-48 object-cover rounded-lg mb-4" 
                                 />
-                                <h3 className="text-sm sm:text-lg font-semibold mb-2">{parceiro.nome}</h3>
+                                <h3 className="text-sm sm:text-lg font-roboto font-bold mb-2">{parceiro.nome}</h3>
                                 <p className="text-sm sm:text-base text-gray-600 mb-3">{parceiro.descricao}</p>
                                 <a href={parceiro.url} target="_blank" rel="noopener noreferrer">
                                     <button className="text-black border-2 border-black font-bold py-2 px-4 rounded-full flex items-center text-base sm:text-lg">
@@ -110,7 +110,7 @@ export default function Projeto() {
                                     height={1200} 
                                     className="w-full h-40 sm:h-48 object-cover rounded-lg mb-4" 
                                 />
-                                <h3 className="text-sm sm:text-lg font-semibold mb-2">{parceiro.nome}</h3>
+                                <h3 className="text-sm sm:text-lg font-bold mb-2">{parceiro.nome}</h3>
                                 <p className="text-sm sm:text-base text-gray-600 mb-3">{parceiro.descricao}</p>
                                 <a href={parceiro.url} target="_blank" rel="noopener noreferrer">
                                     <button className="text-black border-2 border-black font-bold py-2 px-4 rounded-full flex items-center justify-center text-base sm:text-lg">

@@ -1,14 +1,9 @@
-import Footer from "./components/footer";
-import Header from "./components/header";
-
-
+import Sobrenos from "./sobre-nos/page";
 
 export default function Home() {
   return (
     <>
-    <Header/>
-
-    <Footer/>
+    <Sobrenos/>
     </>
   );
 }
