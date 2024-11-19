@@ -82,7 +82,7 @@ export default function Sobrenos() {
           <p className="text-white text-sm sm:text-base mb-2">
             Descubra como a sustentabilidade pode ser incorporada de forma prática em nossas vidas.
           </p>
-          <Link href="/sustentabilidade">
+          <Link href="/servicos">
             <button aria-label="Ir para sustentabilidade" className="bg-lime-300 text-black h-10 w-10 sm:h-12 sm:w-12 rounded-full flex items-center justify-center">
               <FaArrowRight className="-rotate-45" />
             </button>
@@ -119,9 +119,9 @@ export default function Sobrenos() {
               <p className="text-base sm:text-lg mb-6">
                 {slides[currentSlideIndex].text}
               </p>
-              <Link href="/sobre-nos">
+              <Link href="/servicos">
                 <button className="text-black font-bold py-3 px-8 rounded-full border-2 border-black shadow-md text-lg flex items-center space-x-2">
-                  <span>ler mais</span>
+                  <span>ver mais</span>
                   <FaArrowRight className="-rotate-45" />
                 </button>
               </Link>
@@ -129,7 +129,6 @@ export default function Sobrenos() {
           </div>
         </div>
       </section>
-
       <Footer />
     </main>
   );

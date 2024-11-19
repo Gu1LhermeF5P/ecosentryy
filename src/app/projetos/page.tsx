@@ -1,5 +1,4 @@
 'use client'
-import Link from "next/link";
 import Header from "../components/header";
 import Image from "next/image";
 import Footer from "../components/footer";
@@ -55,19 +54,13 @@ export default function Projeto() {
                 {/* Conteúdo Principal */}
                 <div className="absolute inset-0 flex flex-col justify-center items-start text-white px-6 sm:px-12 py-4">
                     <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4">ECO SENTRY</h1>
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Acessibilidade e Inclusão</h2>
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Simplicidade e Efetividade</h2>
                     <p className="text-base sm:text-lg md:text-xl font-medium max-w-lg mb-4">
-                        Com notificações, recomendações personalizadas e rankings de sustentabilidade,
-                        a plataforma motiva os usuários a adotarem hábitos mais verdes. Isso gera
-                        engajamento e cria um senso de competição positiva.
+                    A solução é acessível e prática, o que é um grande diferencial para 
+                    ampliar o alcance em comunidades de baixa renda 
+                    ou para usuários que queiram contribuir para a sustentabilidade de maneira simplificada.
                     </p>
-                    <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-4 ">
-                        <Link href="/projetos">
-                            <button className="bg-white hover:opacity-80 transition duration-300 text-black font-bold py-3 px-6 text-base sm:text-lg rounded-full">
-                                Projeto
-                            </button>
-                        </Link>
-                    </div>
+                    
                 </div>
             </div>
             <section className="py-6 sm:py-8 m-4 sm:m-8 ">
