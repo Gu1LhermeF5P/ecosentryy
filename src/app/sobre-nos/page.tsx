@@ -6,22 +6,36 @@ import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
 import Footer from "../components/footer";
 
-// Array de imagens para o slideshow
-const images = [
-  { src: '/carrosel_img4.jpg', alt: 'Imagem 1' },
-  { src: '/carrosel_img2.jpg', alt: 'Imagem 2' },
-  { src: '/carrosel_img3.jpg', alt: 'Imagem 3' }
+// Array de slides com imagem, texto e título
+const slides = [
+  {
+    src: '/carrosel_img4.jpg',
+    alt: 'Imagem 1',
+    title: 'Missão Sustentável',
+    text: 'Descubra nossa missão de promover práticas sustentáveis e acessíveis para todos.'
+  },
+  {
+    src: '/carrosel_img2.jpg',
+    alt: 'Imagem 2',
+    title: 'Práticas Cotidianas',
+    text: 'Acreditamos que a sustentabilidade começa com ações simples no dia a dia de cada pessoa.'
+  },
+  {
+    src: '/carrosel_img3.jpg',
+    alt: 'Imagem 3',
+    title: 'Ação Global',
+    text: 'Junte-se a nós na luta contra a mudança climática com hábitos mais verdes e conscientes.'
+  }
 ];
 
 export default function Sobrenos() {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
-  
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 5000); 
-    return () => clearInterval(interval); 
+      setCurrentSlideIndex((prevIndex) => (prevIndex + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -80,30 +94,30 @@ export default function Sobrenos() {
         <div className="flex justify-center items-center min-h-[90vh]">
           <div className="flex flex-col sm:flex-row w-full max-w-4xl rounded-xl shadow-lg overflow-hidden">
 
-            {/* Slideshow de Imagens */}
+            {/* Slideshow de Imagens com Texto Dinâmico */}
             <div className="w-full sm:w-1/2 h-48 sm:h-auto relative">
               <Image
-                src={images[currentImageIndex].src}
-                alt={images[currentImageIndex].alt}
+                src={slides[currentSlideIndex].src}
+                alt={slides[currentSlideIndex].alt}
                 width={1000}
                 height={1000}
                 className="object-cover w-full h-full"
               />
               {/* Indicadores do Carrossel */}
               <div className="absolute bottom-2 w-full flex justify-center">
-                {images.map((_, index) => (
+                {slides.map((_, index) => (
                   <span
                     key={index}
-                    className={`h-3 w-3 ${currentImageIndex === index ? 'bg-lime-300' : 'border-2 border-lime-300'} rounded-full mx-1`}
+                    className={`h-3 w-3 ${currentSlideIndex === index ? 'bg-lime-300' : 'border-2 border-lime-300'} rounded-full mx-1`}
                   ></span>
                 ))}
               </div>
             </div>
 
             <div className="w-full sm:w-1/2 bg-lime-300 p-6 sm:p-12 flex flex-col justify-center">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">Sobre Nós</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">{slides[currentSlideIndex].title}</h2>
               <p className="text-base sm:text-lg mb-6">
-                Sit at aut eaque corporis, provident reiciendis impedit. Descubra mais sobre nossas iniciativas e impacto.
+                {slides[currentSlideIndex].text}
               </p>
               <Link href="/sobre-nos">
                 <button className="text-black font-bold py-3 px-8 rounded-full border-2 border-black shadow-md text-lg flex items-center space-x-2">
