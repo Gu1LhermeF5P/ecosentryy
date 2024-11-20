@@ -4,6 +4,7 @@ import Header from "../components/header";
 import Footer from "../components/footer";
 import Image from "next/image";
 
+
 export default function Servicos() {
   const questions = [
     {
@@ -12,9 +13,152 @@ export default function Servicos() {
       correctAnswer: "Energia gerada a partir de fontes renováveis que não poluem o ambiente",
       points: 100 // Dificuldade: fácil
     },
-    // Outras perguntas...
+    {
+      question: "Qual das opções abaixo é uma fonte de energia renovável?",
+      options: ["Carvão", "Solar", "Petróleo", "Gás natural"],
+      correctAnswer: "Solar",
+      points: 100 // Dificuldade: fácil
+    },
+    {
+      question: "Qual é o impacto da poluição plástica nos oceanos?",
+      options: [
+        "Reduz a quantidade de oxigênio disponível",
+        "Afeta a vida marinha e pode levar à morte de espécies",
+        "Aumenta a temperatura da água",
+        "Melhora a qualidade da água"
+      ],
+      correctAnswer: "Afeta a vida marinha e pode levar à morte de espécies",
+      points: 100 // Dificuldade: média
+    },
+    {
+      question: "O que é a pegada de carbono?",
+      options: [
+        "A quantidade de carbono presente no ar devido à queima de combustíveis fósseis",
+        "O impacto ambiental causado pela emissão de gases do efeito estufa",
+        "A quantidade de energia consumida em um edifício",
+        "A quantidade de plástico reciclado"
+      ],
+      correctAnswer: "O impacto ambiental causado pela emissão de gases do efeito estufa",
+      points: 50 // Dificuldade: média
+    },
+    {
+      question: "Qual das seguintes ações contribui para a preservação da biodiversidade?",
+      options: [
+        "Desmatamento de áreas naturais para a agricultura",
+        "Uso sustentável dos recursos naturais e proteção de habitats",
+        "Construção de mais indústrias em áreas de floresta",
+        "Aumento do consumo de produtos plásticos"
+      ],
+      correctAnswer: "Uso sustentável dos recursos naturais e proteção de habitats",
+      points: 100 // Dificuldade: fácil
+    },
+    {
+      question: "O que caracteriza uma economia circular?",
+      options: [
+        "Produção, consumo e descarte de produtos de maneira linear",
+        "Descarte de resíduos de maneira indiscriminada",
+        "Reutilização de materiais e produtos para reduzir desperdícios",
+        "Produção apenas de produtos descartáveis"
+      ],
+      correctAnswer: "Reutilização de materiais e produtos para reduzir desperdícios",
+      points: 50 // Dificuldade: média
+    },
+    {
+      question: "O que é a energia solar?",
+      options: [
+        "Energia gerada pelo calor do sol, que pode ser convertida em eletricidade",
+        "Energia gerada a partir da queima de carvão",
+        "Energia gerada a partir de usinas hidrelétricas",
+        "Energia produzida a partir do vento"
+      ],
+      correctAnswer: "Energia gerada pelo calor do sol, que pode ser convertida em eletricidade",
+      points: 50 // Dificuldade: fácil
+    },
+    {
+      question: "O que é a biodiversidade?",
+      options: [
+        "A diversidade de plantas e animais em um determinado ecossistema",
+        "O número de árvores em uma floresta",
+        "A diversidade de fontes de energia utilizadas em uma região",
+        "A quantidade de poluentes no ar"
+      ],
+      correctAnswer: "A diversidade de plantas e animais em um determinado ecossistema",
+      points: 100 // Dificuldade: média
+    },
+    {
+      question: "Qual das ações abaixo é uma forma eficaz de combater o aquecimento global?",
+      options: [
+        "Reduzir a emissão de gases de efeito estufa e adotar fontes de energia renovável",
+        "Aumentar o uso de combustíveis fósseis",
+        "Destruir florestas para aumentar a agricultura",
+        "Construir mais usinas nucleares"
+      ],
+      correctAnswer: "Reduzir a emissão de gases de efeito estufa e adotar fontes de energia renovável",
+      points: 50 // Dificuldade: média
+    },
+    {
+      question: "Qual é o principal efeito da desflorestação no planeta?",
+      options: [
+        "Redução da biodiversidade e aumento dos gases de efeito estufa",
+        "Aumento da produção de oxigênio",
+        "Melhora da qualidade do solo",
+        "Aumento da precipitação de chuva"
+      ],
+      correctAnswer: "Redução da biodiversidade e aumento dos gases de efeito estufa",
+      points: 50 // Dificuldade: média
+    },
+    {
+      question: "Qual é o maior ecossistema do planeta?",
+      options: ["Floresta Amazônica", "Corais do Oceano Pacífico", "Oceano", "Deserto do Saara"],
+      correctAnswer: "Oceano",
+      points: 100 // Dificuldade: difícil
+    },
+    {
+      question: "O que é uma fonte de energia não renovável?",
+      options: ["Energia solar", "Carvão mineral", "Energia eólica", "Energia hidráulica"],
+      correctAnswer: "Carvão mineral",
+      points: 50 // Dificuldade: média
+    },
+    {
+      question: "O que é o efeito estufa?",
+      options: [
+        "O aumento da temperatura da Terra devido ao acúmulo de gases na atmosfera",
+        "Aumento da camada de ozônio",
+        "Aquecimento do solo devido à perda de calor",
+        "Acúmulo de resíduos plásticos nas cidades"
+      ],
+      correctAnswer: "O aumento da temperatura da Terra devido ao acúmulo de gases na atmosfera",
+      points: 50 // Dificuldade: média
+    },
+    {
+      question: "O que são as energias renováveis?",
+      options: [
+        "Fontes de energia que se esgotam com o uso",
+        "Fontes de energia que podem ser regeneradas naturalmente",
+        "Fontes de energia obtidas a partir de combustíveis fósseis",
+        "Fontes de energia derivadas da queima de lixo"
+      ],
+      correctAnswer: "Fontes de energia que podem ser regeneradas naturalmente",
+      points: 100 // Dificuldade: fácil
+    },
+    {
+      question: "Quais são os principais gases responsáveis pelo efeito estufa?",
+      options: ["Oxygeno e nitrogênio", "Dióxido de carbono e metano", "Hélio e oxigênio", "Oxigênio e dióxido de nitrogênio"],
+      correctAnswer: "Dióxido de carbono e metano",
+      points: 50 // Dificuldade: média
+    },
+    {
+      question: "Qual é a principal causa do desaparecimento de espécies?",
+      options: [
+        "Aumento da temperatura dos oceanos",
+        "Perda de habitat e poluição",
+        "Mudança nas estações do ano",
+        "Uso de combustíveis renováveis"
+      ],
+      correctAnswer: "Perda de habitat e poluição",
+      points: 100 // Dificuldade: difícil
+    }
   ];
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -106,7 +250,7 @@ export default function Servicos() {
       {!isLoggedIn ? (
         !isRegistering ? (
           <div className="flex justify-center items-center min-h-screen bg-gray-100">
-            <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
+            <div className="w-full max-w-md bg-lime-400 p-6 rounded-lg shadow-lg">
               <h2 className="text-3xl font-semibold text-center mb-6">Login</h2>
               <div className="mb-4">
                 <label htmlFor="username" className="block text-lg font-medium mb-2">Nome de Usuário</label>
@@ -132,7 +276,7 @@ export default function Servicos() {
               </div>
               <button
                 onClick={handleLogin}
-                className="w-full py-3 text-lg bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300"
+                className="w-full py-3 text-lg bg-green-700 text-white rounded-lg hover:bg-green-600 transition duration-300"
               >
                 Entrar
               </button>
@@ -140,7 +284,7 @@ export default function Servicos() {
                 <span className="text-sm">Não tem uma conta? </span>
                 <button
                   onClick={() => setIsRegistering(true)}
-                  className="text-sm text-blue-500 hover:underline"
+                  className="text-sm text-green-700 hover:underline"
                 >
                   Registre-se
                 </button>
@@ -149,7 +293,7 @@ export default function Servicos() {
           </div>
         ) : (
           <div className="flex justify-center items-center min-h-screen bg-gray-100">
-            <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
+            <div className="w-full max-w-md bg-lime-400 p-6 rounded-lg shadow-lg">
               <h2 className="text-3xl font-semibold text-center mb-6">Registro</h2>
               <div className="mb-4">
                 <label htmlFor="username" className="block text-lg font-medium mb-2">Nome de Usuário</label>
@@ -175,7 +319,7 @@ export default function Servicos() {
               </div>
               <button
                 onClick={handleRegister}
-                className="w-full py-3 text-lg bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300"
+                className="w-full py-3 text-lg bg-green-700 text-white rounded-lg hover:bg-green-600 transition duration-300"
               >
                 Registrar
               </button>
@@ -183,7 +327,7 @@ export default function Servicos() {
                 <span className="text-sm">Já tem uma conta? </span>
                 <button
                   onClick={() => setIsRegistering(false)}
-                  className="text-sm text-blue-500 hover:underline"
+                  className="text-sm text-green-700 hover:underline"
                 >
                   Faça login
                 </button>
