@@ -367,11 +367,11 @@ export default function Servicos() {
             />
             <div className="absolute inset-0 bg-gradient-to-l from-transparent to-black opacity-60"></div>
             <div className="absolute inset-0 flex flex-col justify-center items-center text-white px-6 sm:px-12 py-4">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-shadow mb-4">Jogo Estilo Kahoot</h1>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-shadow mb-4">ECOQuiz</h1>
               <p className="text-xl sm:text-2xl md:text-3xl font-medium text-shadow max-w-lg mb-6">
                 Teste seus conhecimentos e ganhe Desconto na sua próxima conta!
               </p>
-              <div className="mt-4 text-2xl font-bold text-blue-500">Pontuação: {score}</div>
+              <div className="mt-4 text-2xl font-bold rounded-lg border-4 p-2 border-blue-500  text-blue-500 bg-white">Pontuação: {score}</div>
               <div className={`text-2xl font-bold mt-2 px-4 py-2 rounded-lg border-4 
                 ${attemptsLeft > 2 ? 'border-green-500 text-green-500' : attemptsLeft === 1 ? 'border-red-500 text-red-500' : 'border-yellow-500 text-yellow-500'} 
                 shadow-lg bg-white bg-opacity-80`}>
