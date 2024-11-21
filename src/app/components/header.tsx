@@ -50,13 +50,6 @@ export default function Header() {
         </li>
         <li
           className={`transition duration-300 ${
-            activePath === "/industrias" ? "bg-lime-300" : "hover:bg-lime-300"
-          } text-black font-medium py-2 px-4 rounded-full text-base sm:text-lg text-center`}
-        >
-          <Link href="/industrias">Indústrias</Link>
-        </li>
-        <li
-          className={`transition duration-300 ${
             activePath === "/contato" ? "bg-lime-300" : "bg-lime-300 hover:bg-lime-500"
           } text-black font-bold py-2 px-4 rounded-full flex items-center text-base sm:text-lg text-center`}
         >
