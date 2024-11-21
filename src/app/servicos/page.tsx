@@ -170,6 +170,7 @@ export default function Servicos() {
   const [isBlocked, setIsBlocked] = useState(false);
   const [answerFeedback, setAnswerFeedback] = useState<string | null>(null);
   const [feedbackColor, setFeedbackColor] = useState<string>('');
+  const [quizFinished, setQuizFinished] = useState(false);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
@@ -217,7 +218,7 @@ export default function Servicos() {
   };
 
   const handleAnswer = (answer: string) => {
-    if (isAnswered || isBlocked) return;
+    if (isAnswered || isBlocked || quizFinished) return;
 
     setIsAnswered(true);
     if (answer === questions[currentQuestionIndex].correctAnswer) {
@@ -238,12 +239,20 @@ export default function Servicos() {
       setIsAnswered(false);
       if (currentQuestionIndex < questions.length - 1) {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
+      } else {
+        setQuizFinished(true);
       }
     }, 2000);
   };
 
-  const currentQuestion = questions[currentQuestionIndex];
+  const calculateDiscount = () => {
+    const maxPoints = 1000;
+    const maxDiscount = 55; // Porcentagem
+    return Math.min((score / maxPoints) * maxDiscount, maxDiscount).toFixed(2);
+  };
 
+  const currentQuestion = questions[currentQuestionIndex];
+  
   return (
     <main>
       <Header />
@@ -356,7 +365,6 @@ export default function Servicos() {
             </button>
           </div>
 
-          {/* Quiz e demais funcionalidades */}
           <div className="relative w-full h-[70vh] overflow-hidden">
             <Image
               className="w-full h-full object-cover"
@@ -371,45 +379,66 @@ export default function Servicos() {
               <p className="text-xl sm:text-2xl md:text-3xl font-medium text-shadow max-w-lg mb-6">
                 Teste seus conhecimentos e ganhe Desconto na sua próxima conta!
               </p>
-              <div className="mt-4 text-2xl font-bold rounded-lg border-4 p-2 border-blue-500  text-blue-500 bg-white">Pontuação: {score}</div>
-              <div className={`text-2xl font-bold mt-2 px-4 py-2 rounded-lg border-4 
-                ${attemptsLeft > 2 ? 'border-green-500 text-green-500' : attemptsLeft === 1 ? 'border-red-500 text-red-500' : 'border-yellow-500 text-yellow-500'} 
-                shadow-lg bg-white bg-opacity-80`}>
-                Tentativas restantes: {attemptsLeft}
-              </div>
-              {isBlocked && (
-                <div className="mt-4 text-xl font-semibold text-red-500">
-                  Você esgotou suas tentativas! Aguarde 1 minuto para jogar novamente.
-                </div>
-              )}
-              {answerFeedback && (
-                <div className={`mt-4 text-3xl font-semibold ${feedbackColor} text-white`}>
-                  {answerFeedback}
-                </div>
+              {!quizFinished && (
+                <>
+                  <div className="mt-4 text-2xl font-bold rounded-lg border-4 p-2 border-blue-500  text-blue-500 bg-white">Pontuação: {score}</div>
+                  <div className={`text-2xl font-bold mt-2 px-4 py-2 rounded-lg border-4 
+                    ${attemptsLeft > 2 ? 'border-green-500 text-green-500' : attemptsLeft === 1 ? 'border-red-500 text-red-500' : 'border-yellow-500 text-yellow-500'} 
+                    shadow-lg bg-white bg-opacity-80`}>
+                    Tentativas restantes: {attemptsLeft}
+                  </div>
+                  {isBlocked && (
+                    <div className="mt-4 text-xl font-semibold text-red-500">
+                      Você esgotou suas tentativas! Aguarde 1 minuto para jogar novamente.
+                    </div>
+                  )}
+                  {answerFeedback && (
+                    <div className={`mt-4 text-3xl font-semibold ${feedbackColor} text-white`}>
+                      {answerFeedback}
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>
-
-          <section className="mt-12 px-4 m-36">
-            <div className="flex justify-center items-center min-h-[60vh]">
-              <div className="flex flex-col w-full max-w-4xl rounded-xl shadow-lg bg-white p-6">
-                <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">{currentQuestion.question}</h2>
-                {currentQuestion.options.map((option, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleAnswer(option)}
-                    className={`w-full py-4 px-6 text-lg mb-4 rounded-lg transition duration-300 font-semibold 
-                    ${isAnswered 
-                      ? (option === currentQuestion.correctAnswer ? 'bg-green-500 text-white' : 'bg-red-500 text-white') 
-                      : 'bg-blue-500 text-white hover:bg-blue-600'}`}
-                    disabled={isAnswered || isBlocked}
-                  >
-                    {option}
-                  </button>
-                ))}
+          {quizFinished || isBlocked ? (
+            <section className="flex flex-col items-center justify-center mt-20 p-6">
+              <h2 className="text-4xl font-bold text-green-600 mb-4">Parabéns!</h2>
+              <p className="text-2xl text-gray-700 mb-6">Você concluiu o quiz.</p>
+              <div className="text-3xl font-bold text-blue-600 mb-6">
+                Seu desconto na conta de luz: <span className="text-green-500">{calculateDiscount()}%</span>
               </div>
-            </div>
-          </section>
+              {/* Aqui estamos exibindo o "fake" cupom */}
+              <div className="text-2xl font-bold text-gray-700 mb-6">
+                <p className="text-lg">Seu cupom de desconto:</p>
+                <p className="text-3xl font-semibold text-blue-600">
+                  ECO-{calculateDiscount()}OFF
+                </p>
+              </div>
+            </section>
+          ) : (
+            <section className="mt-12 px-4 m-36">
+              <div className="flex justify-center items-center min-h-[60vh]">
+                <div className="flex flex-col w-full max-w-4xl rounded-xl shadow-lg bg-white p-6">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">{currentQuestion.question}</h2>
+                  {currentQuestion.options.map((option, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleAnswer(option)}
+                      className={`w-full py-4 px-6 text-lg mb-4 rounded-lg transition duration-300 font-semibold 
+                      ${isAnswered 
+                        ? (option === currentQuestion.correctAnswer ? 'bg-green-500 text-white' : 'bg-red-500 text-white') 
+                        : 'bg-blue-500 text-white hover:bg-blue-600'}`}
+                      disabled={isAnswered || isBlocked}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+
           <Footer />
         </>
       )}
