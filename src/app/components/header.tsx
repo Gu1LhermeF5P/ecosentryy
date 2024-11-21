@@ -8,7 +8,7 @@ export default function Header() {
   const [activePath, setActivePath] = useState("");
 
   useEffect(() => {
-    // Configura o estado ativo com base na URL atual
+    
     setActivePath(window.location.pathname);
   }, []);
 
@@ -36,10 +36,10 @@ export default function Header() {
         </li>
         <li
           className={`transition duration-300 ${
-            activePath === "/servicos" ? "bg-lime-300" : "hover:bg-lime-300"
+            activePath === "/ecoquiz" ? "bg-lime-300" : "hover:bg-lime-300"
           } text-black font-medium py-2 px-4 rounded-full text-base sm:text-lg text-center`}
         >
-          <Link href="/servicos">Serviços</Link>
+          <Link href="/ecoquiz">ECOQuiz</Link>
         </li>
         <li
           className={`transition duration-300 ${

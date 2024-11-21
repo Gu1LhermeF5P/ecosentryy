@@ -26,7 +26,7 @@ export default function Footer() {
                 <h3 className="font-bold text-xl mb-4 sm:mb-6">Menu</h3>
                 <ul className="space-y-2 sm:space-y-3 text-center sm:text-left">
                     <li><a href="/sobre-nos" className="text-base hover:underline">Sobre nós</a></li>
-                    <li><a href="/servicos" className="text-base hover:underline">Serviços</a></li>
+                    <li><a href="/ecoquiz" className="text-base hover:underline">ECOQuiz</a></li>
                     <li><a href="/projetos" className="text-base hover:underline">Projetos</a></li>
                     <li><a href="/contato" className="text-base hover:underline">Contato</a></li>
                 </ul>

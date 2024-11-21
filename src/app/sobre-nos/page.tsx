@@ -58,19 +58,14 @@ export default function Sobrenos() {
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4">ECO SENTRY</h1>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Acessibilidade e Inclusão</h2>
           <p className="text-base sm:text-lg md:text-xl font-medium max-w-lg mb-4">
-            Com notificações, recomendações personalizadas e rankings de sustentabilidade,
-            a plataforma motiva os usuários a adotarem hábitos mais verdes. Isso gera
-            engajamento e cria um senso de competição positiva.
+          A solução é acessível e prática, o que é um grande diferencial para 
+          ampliar o alcance em comunidades de baixa renda 
+          ou para usuários que queiram contribuir para a sustentabilidade de maneira simplificada.
           </p>
           <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-4">
-            <Link href="/servicos">
-              <button className="bg-black hover:opacity-60 transition duration-300 text-white font-bold py-3 px-6 text-base sm:text-lg rounded-full">
-                Serviços
-              </button>
-            </Link>
             <Link href="/projetos">
               <button className="bg-white hover:opacity-60 transition duration-300 text-black font-bold py-3 px-6 text-base sm:text-lg rounded-full">
-                Projeto
+                Projetos
               </button>
             </Link>
           </div>
@@ -78,7 +73,7 @@ export default function Sobrenos() {
 
         {/* Bloco de Texto Lateral */}
         <div className="absolute top-1/3 right-4 sm:right-16 bg-gray-500 bg-opacity-80 p-4 sm:p-6 rounded-lg shadow-lg max-w-xs">
-          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-2">Sustentabilidade</h2>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-2">ECOQuiz</h2>
           <p className="text-white text-sm sm:text-base mb-2">
             Descubra como a sustentabilidade pode ser incorporada de forma prática em nossas vidas.
           </p>
@@ -119,7 +114,7 @@ export default function Sobrenos() {
               <p className="text-base sm:text-lg mb-6">
                 {slides[currentSlideIndex].text}
               </p>
-              <Link href="/servicos">
+              <Link href="/projetos">
                 <button className="text-black font-bold py-3 px-8 rounded-full border-2 border-black shadow-md text-lg flex items-center space-x-2">
                   <span>ver mais</span>
                   <FaArrowRight className="-rotate-45" />

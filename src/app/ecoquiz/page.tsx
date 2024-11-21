@@ -4,7 +4,6 @@ import Header from "../components/header";
 import Footer from "../components/footer";
 import Image from "next/image";
 
-
 export default function Servicos() {
   const questions = [
     {
@@ -169,7 +168,7 @@ export default function Servicos() {
   const [attemptsLeft, setAttemptsLeft] = useState(5);
   const [isBlocked, setIsBlocked] = useState(false);
   const [answerFeedback, setAnswerFeedback] = useState<string | null>(null);
-  const [feedbackColor, setFeedbackColor] = useState<string>('');
+  const [feedbackColor, setFeedbackColor] = useState<string>(''); 
   const [quizFinished, setQuizFinished] = useState(false);
 
   useEffect(() => {
@@ -183,6 +182,14 @@ export default function Servicos() {
         localStorage.removeItem("lastAttemptTime");
       }
     }
+
+    // Carregar lista de usuários
+    fetch('http://localhost:8080/caminho/listar-user')
+      .then(response => response.json())
+      .then(data => {
+        console.log('Usuários carregados:', data);
+      })
+      .catch(error => console.error('Erro ao carregar usuários:', error));
 
     if (storedUsername) {
       setUsername(storedUsername);
@@ -202,20 +209,61 @@ export default function Servicos() {
 
   const handleRegister = () => {
     if (username && password) {
-      localStorage.setItem(`${username}-password`, password);
-      alert("Conta criada com sucesso! Faça login.");
-      setIsRegistering(false);
+      fetch('http://localhost:8080/caminho/cadastro', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert("Conta criada com sucesso! Faça login.");
+            setIsRegistering(false);
+          } else {
+            alert("Erro ao criar conta.");
+          }
+        })
+        .catch(error => {
+          console.error("Erro ao cadastrar:", error);
+          alert("Erro ao tentar registrar. Tente novamente.");
+        });
     } else {
       alert("Por favor, preencha ambos os campos.");
     }
   };
-
   const handleLogout = () => {
+    // Limpar os dados do localStorage
     localStorage.removeItem('username');
+    localStorage.removeItem('password'); 
+  
+    // Atualizar o estado de login
     setIsLoggedIn(false);
-    setUsername('');
-    setPassword('');
+  
+    // Você pode redirecionar o usuário para a página inicial ou de login, se desejar
+    window.location.href = "/ecoquiz";
   };
+  
+  
+  
+  // Função para excluir um usuário
+  const handleDeleteUser = async () => {
+    if (window.confirm("Você tem certeza que deseja excluir sua conta?")) {
+      const response = await fetch(`http://localhost:8080/caminho/2/deletaruser`, { 
+        method: 'DELETE',
+      });
+  
+      if (response.ok) {
+        alert("Usuário excluído com sucesso!");
+        handleLogout(); // Faz logout após a exclusão
+      } else {
+        alert("Erro ao excluir usuário.");
+      }
+    }
+  };
+  
+
 
   const handleAnswer = (answer: string) => {
     if (isAnswered || isBlocked || quizFinished) return;
@@ -252,7 +300,7 @@ export default function Servicos() {
   };
 
   const currentQuestion = questions[currentQuestionIndex];
-  
+
   return (
     <main>
       <Header />
@@ -363,6 +411,12 @@ export default function Servicos() {
             >
               Logout
             </button>
+            <button
+              onClick={handleDeleteUser}
+              className="py-2 px-4 bg-red-700 text-white rounded-lg hover:bg-red-600 transition duration-300"
+            >
+              Excluir Conta
+            </button>
           </div>
 
           <div className="relative w-full h-[70vh] overflow-hidden">
@@ -408,7 +462,7 @@ export default function Servicos() {
               <div className="text-3xl font-bold text-blue-600 mb-6">
                 Seu desconto na conta de luz: <span className="text-green-500">{calculateDiscount()}%</span>
               </div>
-              {/* Aqui estamos exibindo o "fake" cupom */}
+              {/*"fake" cupom */}
               <div className="text-2xl font-bold text-gray-700 mb-6">
                 <p className="text-lg">Seu cupom de desconto:</p>
                 <p className="text-3xl font-semibold text-blue-600">
