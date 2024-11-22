@@ -2,8 +2,8 @@
 ![Imagem do ECOSENTRY](./public/readme_ecosentry.png)
 
 ECOSENTRY é uma aplicação web desenvolvida para promover o consumo consciente de energia. Através de uma interface acessível, monitoramento de consumo e um sistema de recompensas, o projeto visa engajar os usuários em práticas sustentáveis, incentivando a redução de desperdício de energia.
-
-
+# URL para o site: https://ecosentryy.vercel.app
+# Youtube Link : https://youtu.be/NFboK7Oj7vc
 # ECOSENTRY
 
 ECOSENTRY é uma aplicação web desenvolvida para promover o consumo consciente de energia. Através de uma interface acessível, monitoramento de consumo e um sistema de recompensas, o projeto visa engajar os usuários em práticas sustentáveis, incentivando a redução de desperdício de energia.
