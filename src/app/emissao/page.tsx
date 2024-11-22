@@ -23,18 +23,17 @@ export default function EmissaoPage() {
     // Carregar histórico de emissões do backend
     useEffect(() => {
         axios.get("http://localhost:8080/caminho/emissoes")
-            .then((response) => setHistorico(response.data))
+            .then((response) => setHistorico(response.data || []))
             .catch((error) => console.error("Erro ao carregar histórico:", error));
     }, []);
 
     const handleSalvarEmissao = () => {
-        const novaEmissao = {
+        const novaEmissao: Partial<Emissao> = {
             nome,
             idCategoria,
             dataEmissao,
             valorEmissao,
         };
-        
 
         if (idEdicao) {
             // Atualizar emissão existente
@@ -54,7 +53,7 @@ export default function EmissaoPage() {
             // Criar nova emissão
             axios.post("http://localhost:8080/caminho/emissao", novaEmissao)
                 .then((response) => {
-                    setHistorico([...historico, { ...novaEmissao, id: response.data.id }]);
+                    setHistorico((prev) => [...prev, { ...novaEmissao, id: response.data.id } as Emissao]);
                     resetInputs();
                 })
                 .catch((error) => console.error("Erro ao salvar emissão:", error));
@@ -94,7 +93,7 @@ export default function EmissaoPage() {
             <Header />
             <div className="min-h-screen flex flex-col items-center bg-gray-100 p-4">
                 <div className="max-w-4xl w-full bg-white p-6 rounded-lg shadow-md">
-                    <h1 className="text-2xl font-semibold mb-4">Gerenciamento de Emissões</h1>
+                    <h1 className="text-2xl font-semibold mb-4">Gerenciamento de Emissões de CO2</h1>
 
                     <form
                         onSubmit={(e) => {
@@ -107,7 +106,7 @@ export default function EmissaoPage() {
                             <label className="block text-gray-700">Nome</label>
                             <input
                                 type="text"
-                                value={nome}
+                                value={nome ?? ""}
                                 onChange={(e) => setNome(e.target.value)}
                                 className="w-full mt-2 p-2 border border-gray-300 rounded-md"
                                 required
@@ -118,7 +117,7 @@ export default function EmissaoPage() {
                             <label className="block text-gray-700">Categoria</label>
                             <input
                                 type="number"
-                                value={idCategoria}
+                                value={idCategoria ?? 0}
                                 onChange={(e) => setIdCategoria(Number(e.target.value))}
                                 className="w-full mt-2 p-2 border border-gray-300 rounded-md"
                                 required
@@ -129,7 +128,7 @@ export default function EmissaoPage() {
                             <label className="block text-gray-700">Data de Emissão</label>
                             <input
                                 type="date"
-                                value={dataEmissao}
+                                value={dataEmissao ?? ""}
                                 onChange={(e) => setDataEmissao(e.target.value)}
                                 className="w-full mt-2 p-2 border border-gray-300 rounded-md"
                                 required
@@ -140,7 +139,7 @@ export default function EmissaoPage() {
                             <label className="block text-gray-700">Valor da Emissão (kg CO2)</label>
                             <input
                                 type="number"
-                                value={valorEmissao}
+                                value={valorEmissao ?? 0}
                                 onChange={(e) => setValorEmissao(Number(e.target.value))}
                                 className="w-full mt-2 p-2 border border-gray-300 rounded-md"
                                 required
@@ -157,30 +156,34 @@ export default function EmissaoPage() {
 
                     <div className="mt-8">
                         <h3 className="text-lg font-semibold">Histórico de Emissões</h3>
-                        <ul className="list-disc pl-5 space-y-2">
-                            {historico.slice(0, 10).map((item) => (
-                                <li key={item.id || item.nome + item.dataEmissao} className="flex justify-between items-center">
-                                    <div>
-                                        <span className="font-semibold">{item.nome}</span> -{" "}
-                                        {item.valorEmissao} kg CO2 - {item.dataEmissao}
-                                    </div>
-                                    <div>
-                                        <button
-                                            onClick={() => handleEditarEmissao(item.id)}
-                                            className="text-blue-500 hover:text-blue-700 mr-4"
-                                        >
-                                            Editar
-                                        </button>
-                                        <button
-                                            onClick={() => handleExcluirEmissao(item.id)}
-                                            className="text-red-500 hover:text-red-700"
-                                        >
-                                            Excluir
-                                        </button>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
+                        {historico.length > 0 ? (
+                            <ul className="list-disc pl-5 space-y-2">
+                                {historico.slice(0, 6).map((item) => (
+                                    <li key={item.id || `${item.nome}-${item.dataEmissao}`} className="flex justify-between items-center">
+                                        <div>
+                                            <span className="font-semibold">{item.nome}</span> -{" "}
+                                            {item.valorEmissao} kg CO2 - {item.dataEmissao}
+                                        </div>
+                                        <div>
+                                            <button
+                                                onClick={() => handleEditarEmissao(item.id)}
+                                                className="text-blue-500 hover:text-blue-700 mr-4"
+                                            >
+                                                Editar
+                                            </button>
+                                            <button
+                                                onClick={() => handleExcluirEmissao(item.id)}
+                                                className="text-red-500 hover:text-red-700"
+                                            >
+                                                Excluir
+                                            </button>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p className="text-gray-600">Nenhuma emissão registrada ainda.</p>
+                        )}
                     </div>
                 </div>
             </div>

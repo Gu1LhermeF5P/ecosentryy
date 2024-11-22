@@ -53,7 +53,7 @@ export default function Header() {
             activePath === "/emissao" ? "bg-lime-300" : "hover:bg-lime-300"
           } text-black font-medium py-2 px-4 rounded-full text-base sm:text-lg text-center`}
         >
-          <Link href="/emissao">Emissao</Link>
+          <Link href="/emissao">Emissao de co²</Link>
         </li>       
         <li
           className={`transition duration-300 ${
