@@ -34,6 +34,7 @@ export default function EmissaoPage() {
             dataEmissao,
             valorEmissao,
         };
+        
 
         if (idEdicao) {
             // Atualizar emissão existente
@@ -74,7 +75,8 @@ export default function EmissaoPage() {
     const handleExcluirEmissao = (id: number) => {
         axios.delete(`http://localhost:8080/caminho/exclemissao/${id}`)
             .then(() => {
-                setHistorico(historico.filter((item) => item.id !== id));
+                setHistorico((prev) => prev.filter((emissao) => emissao.id !== id));
+                console.log("Emissão excluída com sucesso");
             })
             .catch((error) => console.error("Erro ao excluir emissão:", error));
     };
@@ -156,8 +158,8 @@ export default function EmissaoPage() {
                     <div className="mt-8">
                         <h3 className="text-lg font-semibold">Histórico de Emissões</h3>
                         <ul className="list-disc pl-5 space-y-2">
-                            {historico.map((item) => (
-                                <li key={item.id} className="flex justify-between items-center">
+                            {historico.slice(0, 10).map((item) => (
+                                <li key={item.id || item.nome + item.dataEmissao} className="flex justify-between items-center">
                                     <div>
                                         <span className="font-semibold">{item.nome}</span> -{" "}
                                         {item.valorEmissao} kg CO2 - {item.dataEmissao}
