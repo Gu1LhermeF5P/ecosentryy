@@ -28,6 +28,7 @@ export default function Footer() {
                     <li><a href="/sobre-nos" className="text-base hover:underline">Sobre nós</a></li>
                     <li><a href="/ecoquiz" className="text-base hover:underline">ECOQuiz</a></li>
                     <li><a href="/projetos" className="text-base hover:underline">Projetos</a></li>
+                    <li><a href="/emissao" className="text-base hover:underline">Emissão</a></li>
                     <li><a href="/contato" className="text-base hover:underline">Contato</a></li>
                 </ul>
                 </div>
