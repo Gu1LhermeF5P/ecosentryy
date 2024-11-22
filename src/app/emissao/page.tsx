@@ -1,149 +1,181 @@
-'use client'
-import { useState } from "react";
+'use client';
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Footer from "../components/footer";
 import Header from "../components/header";
- 
+
 interface Emissao {
-    tipo: string;
-    emissao: number;
-    distancia: string;
-    combustivel: string;
+    id: number;
+    nome: string;
+    idCategoria: number;
+    dataEmissao: string;
+    valorEmissao: number;
 }
- 
-export default function Emissao() {
-    const [tipoEmissao, setTipoEmissao] = useState<string>("");
-    const [distancia, setDistancia] = useState<string>("");
-    const [combustivel, setCombustivel] = useState<string>("");
-    const [emissaoGerada, setEmissaoGerada] = useState<number | null>(null);
+
+export default function EmissaoPage() {
     const [historico, setHistorico] = useState<Emissao[]>([]);
- 
-    const handleTipoEmissaoChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setTipoEmissao(e.target.value);
-        resetInputs();
-    };
- 
-    const handleCalcularEmissao = () => {
-        let emissao = 0;
-        if (tipoEmissao === "transporte") {
-            // Exemplo de cálculo simplificado de emissão de carbono
-            emissao = parseFloat(distancia) * 0.21; // exemplo: 0.21 kg de CO2 por km com combustível comum
-        } else if (tipoEmissao === "energia") {
-            emissao = combustivel === "eletrica" ? 0.5 : 1.2; // exemplo simplificado
-        }
-        setEmissaoGerada(emissao);
-    };
- 
+    const [nome, setNome] = useState<string>("");
+    const [idCategoria, setIdCategoria] = useState<number>(0);
+    const [dataEmissao, setDataEmissao] = useState<string>("");
+    const [valorEmissao, setValorEmissao] = useState<number>(0);
+    const [idEdicao, setIdEdicao] = useState<number | null>(null);
+
+    // Carregar histórico de emissões do backend
+    useEffect(() => {
+        axios.get("http://localhost:8080/caminho/emissoes")
+            .then((response) => setHistorico(response.data))
+            .catch((error) => console.error("Erro ao carregar histórico:", error));
+    }, []);
+
     const handleSalvarEmissao = () => {
-        if (emissaoGerada !== null) {
-            const novaEmissao: Emissao = {
-                tipo: tipoEmissao,
-                emissao: emissaoGerada,
-                distancia: distancia,
-                combustivel: combustivel,
-            };
-            setHistorico([...historico, novaEmissao]);
+        const novaEmissao = {
+            nome,
+            idCategoria,
+            dataEmissao,
+            valorEmissao,
+        };
+
+        if (idEdicao) {
+            // Atualizar emissão existente
+            axios.put(`http://localhost:8080/caminho/atualizar/${idEdicao}`, novaEmissao)
+                .then(() => {
+                    setHistorico((prev) =>
+                        prev.map((emissao) =>
+                            emissao.id === idEdicao
+                                ? { ...emissao, ...novaEmissao, id: idEdicao }
+                                : emissao
+                        )
+                    );
+                    resetInputs();
+                })
+                .catch((error) => console.error("Erro ao atualizar emissão:", error));
+        } else {
+            // Criar nova emissão
+            axios.post("http://localhost:8080/caminho/emissao", novaEmissao)
+                .then((response) => {
+                    setHistorico([...historico, { ...novaEmissao, id: response.data.id }]);
+                    resetInputs();
+                })
+                .catch((error) => console.error("Erro ao salvar emissão:", error));
         }
     };
- 
-    const handleExcluirEmissao = (index: number) => {
-        // Remove a emissão com base no índice
-        const novoHistorico = historico.filter((_, i) => i !== index);
-        setHistorico(novoHistorico);
+
+    const handleEditarEmissao = (id: number) => {
+        const emissao = historico.find((item) => item.id === id);
+        if (emissao) {
+            setNome(emissao.nome);
+            setIdCategoria(emissao.idCategoria);
+            setDataEmissao(emissao.dataEmissao);
+            setValorEmissao(emissao.valorEmissao);
+            setIdEdicao(emissao.id);
+        }
     };
- 
+
+    const handleExcluirEmissao = (id: number) => {
+        axios.delete(`http://localhost:8080/caminho/exclemissao/${id}`)
+            .then(() => {
+                setHistorico(historico.filter((item) => item.id !== id));
+            })
+            .catch((error) => console.error("Erro ao excluir emissão:", error));
+    };
+
     const resetInputs = () => {
-        setDistancia("");
-        setCombustivel("");
-        setEmissaoGerada(null);
+        setNome("");
+        setIdCategoria(0);
+        setDataEmissao("");
+        setValorEmissao(0);
+        setIdEdicao(null);
     };
- 
+
     return (
         <main>
             <Header />
-            <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-                <div className="max-w-lg w-full bg-white p-6 rounded-lg shadow-md">
-                    <h1 className="text-2xl font-semibold mb-4">Adicionar Emissão de Carbono</h1>
- 
-                    {/* Selecao do Tipo de Emissão */}
-                    <div className="mb-4">
-                        <label className="block text-gray-700">Tipo de Emissão</label>
-                        <select
-                            value={tipoEmissao}
-                            onChange={handleTipoEmissaoChange}
-                            className="w-full mt-2 p-2 border border-gray-300 rounded-md"
-                        >
-                            <option value="">Selecione...</option>
-                            <option value="transporte">Transporte</option>
-                            <option value="energia">Uso de Energia</option>
-                            <option value="outros">Outros</option>
-                        </select>
-                    </div>
- 
-                    {/* Entrada de dados */}
-                    {tipoEmissao === "transporte" && (
-                        <div className="mb-4">
-                            <label className="block text-gray-700">Distância percorrida (km)</label>
+            <div className="min-h-screen flex flex-col items-center bg-gray-100 p-4">
+                <div className="max-w-4xl w-full bg-white p-6 rounded-lg shadow-md">
+                    <h1 className="text-2xl font-semibold mb-4">Gerenciamento de Emissões</h1>
+
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            handleSalvarEmissao();
+                        }}
+                        className="grid gap-4"
+                    >
+                        <div>
+                            <label className="block text-gray-700">Nome</label>
                             <input
-                                type="number"
-                                value={distancia}
-                                onChange={(e) => setDistancia(e.target.value)}
+                                type="text"
+                                value={nome}
+                                onChange={(e) => setNome(e.target.value)}
                                 className="w-full mt-2 p-2 border border-gray-300 rounded-md"
+                                required
                             />
                         </div>
-                    )}
-                    {tipoEmissao === "energia" && (
-                        <div className="mb-4">
-                            <label className="block text-gray-700">Tipo de Energia</label>
-                            <select
-                                value={combustivel}
-                                onChange={(e) => setCombustivel(e.target.value)}
+
+                        <div>
+                            <label className="block text-gray-700">Categoria</label>
+                            <input
+                                type="number"
+                                value={idCategoria}
+                                onChange={(e) => setIdCategoria(Number(e.target.value))}
                                 className="w-full mt-2 p-2 border border-gray-300 rounded-md"
-                            >
-                                <option value="">Selecione...</option>
-                                <option value="eletrica">Elétrica</option>
-                                <option value="gas">Gás</option>
-                            </select>
+                                required
+                            />
                         </div>
-                    )}
- 
-                    {/* Calcular Emissão */}
-                    <button
-                        onClick={handleCalcularEmissao}
-                        className="w-full py-2 bg-blue-500 text-white rounded-md mt-4"
-                    >
-                        Calcular Emissão
-                    </button>
- 
-                    {/* Exibir Emissão Calculada */}
-                    {emissaoGerada !== null && (
-                        <div className="mt-4 p-4 bg-green-100 text-green-800 rounded-md">
-                            Emissão Gerada: {emissaoGerada.toFixed(2)} kg de CO2
+
+                        <div>
+                            <label className="block text-gray-700">Data de Emissão</label>
+                            <input
+                                type="date"
+                                value={dataEmissao}
+                                onChange={(e) => setDataEmissao(e.target.value)}
+                                className="w-full mt-2 p-2 border border-gray-300 rounded-md"
+                                required
+                            />
                         </div>
-                    )}
- 
-                    {/* Botão para Salvar Emissão */}
-                    <button
-                        onClick={handleSalvarEmissao}
-                        className="w-full py-2 bg-green-500 text-white rounded-md mt-4"
-                    >
-                        Salvar Emissão
-                    </button>
- 
-                    {/* Histórico de Emissões */}
-                    <div className="mt-4">
+
+                        <div>
+                            <label className="block text-gray-700">Valor da Emissão (kg CO2)</label>
+                            <input
+                                type="number"
+                                value={valorEmissao}
+                                onChange={(e) => setValorEmissao(Number(e.target.value))}
+                                className="w-full mt-2 p-2 border border-gray-300 rounded-md"
+                                required
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="w-full py-2 bg-blue-500 text-white rounded-md"
+                        >
+                            {idEdicao ? "Atualizar Emissão" : "Salvar Emissão"}
+                        </button>
+                    </form>
+
+                    <div className="mt-8">
                         <h3 className="text-lg font-semibold">Histórico de Emissões</h3>
-                        <ul className="list-disc pl-5">
-                            {historico.map((item, index) => (
-                                <li key={index} className="flex justify-between items-center">
-                                    <span>
-                                        {item.tipo} - {item.emissao} kg CO2
-                                    </span>
-                                    <button
-                                        onClick={() => handleExcluirEmissao(index)}
-                                        className="ml-4 text-red-500 hover:text-red-700"
-                                    >
-                                        Excluir
-                                    </button>
+                        <ul className="list-disc pl-5 space-y-2">
+                            {historico.map((item) => (
+                                <li key={item.id} className="flex justify-between items-center">
+                                    <div>
+                                        <span className="font-semibold">{item.nome}</span> -{" "}
+                                        {item.valorEmissao} kg CO2 - {item.dataEmissao}
+                                    </div>
+                                    <div>
+                                        <button
+                                            onClick={() => handleEditarEmissao(item.id)}
+                                            className="text-blue-500 hover:text-blue-700 mr-4"
+                                        >
+                                            Editar
+                                        </button>
+                                        <button
+                                            onClick={() => handleExcluirEmissao(item.id)}
+                                            className="text-red-500 hover:text-red-700"
+                                        >
+                                            Excluir
+                                        </button>
+                                    </div>
                                 </li>
                             ))}
                         </ul>
