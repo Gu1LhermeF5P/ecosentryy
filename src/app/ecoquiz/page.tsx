@@ -171,26 +171,9 @@ export default function Servicos() {
   const [feedbackColor, setFeedbackColor] = useState<string>(''); 
   const [quizFinished, setQuizFinished] = useState(false);
 
+  // Verifica se o usuário já está logado
   useEffect(() => {
-    const storedUsername = localStorage.getItem('username');
-    const lastAttemptTime = localStorage.getItem("lastAttemptTime");
-
-    if (lastAttemptTime) {
-      const timePassed = Date.now() - Number(lastAttemptTime);
-      if (timePassed >= 60000) {
-        setIsBlocked(false);
-        localStorage.removeItem("lastAttemptTime");
-      }
-    }
-
-    // Carregar lista de usuários
-    fetch('http://localhost:8080/caminho/listar-user')
-      .then(response => response.json())
-      .then(data => {
-        console.log('Usuários carregados:', data);
-      })
-      .catch(error => console.error('Erro ao carregar usuários:', error));
-
+    const storedUsername = localStorage.getItem('loggedInUser');
     if (storedUsername) {
       setUsername(storedUsername);
       setIsLoggedIn(true);
@@ -198,9 +181,10 @@ export default function Servicos() {
   }, []);
 
   const handleLogin = () => {
-    const storedPassword = localStorage.getItem(`${username}-password`);
+    const storedPassword = localStorage.getItem(username);
+
     if (storedPassword === password) {
-      localStorage.setItem('username', username);
+      localStorage.setItem('loggedInUser', username);
       setIsLoggedIn(true);
     } else {
       alert("Credenciais inválidas. Tente novamente.");
@@ -208,78 +192,26 @@ export default function Servicos() {
   };
 
   const handleRegister = () => {
-    // Verifica se o username e password foram fornecidos
     if (!username || !password) {
       alert("Por favor, preencha ambos os campos.");
       return;
     }
-  
-    // Dados que serão enviados
-    const userData = {
-      username: username.trim(),
-      password: password.trim()
-    };
-  
-    // Envia os dados para o backend
-    fetch('http://localhost:8080/caminho/cadastro', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userData)
-    })
-      .then(response => {
-        if (!response.ok) {
-          return response.text().then(errorMsg => {
-            throw new Error(`Erro HTTP: ${response.status} - ${errorMsg}`);
-          });
-        }
-        return response.json();
-      })
-      .then(data => {
-        if (data.success) {
-          // Salva os dados no localStorage
-          localStorage.setItem(`${username}-password`, password);
-          localStorage.setItem('username', username);
-          alert("Conta criada com sucesso! Faça login.");
-          setIsRegistering(false); // Exibe a tela de login, se necessário
-        } else {
-          alert("Erro ao criar conta. Detalhes: " + data.message);
-        }
-      })
-      .catch(error => {
-        console.error("Erro ao cadastrar:", error);
-        alert("Erro ao tentar registrar. Tente novamente.");
-      });
-  };  
-  
-  
-  const handleLogout = () => {
-    // Limpar os dados do localStorage
-    localStorage.removeItem('username');
-    localStorage.removeItem('password'); 
-  
-    // Atualizar o estado de login
-    setIsLoggedIn(false);
-  
-    // Você pode redirecionar o usuário para a página inicial ou de login, se desejar
-    window.location.href = "/ecoquiz";
-  };
-  
-  // Função para excluir um usuário
-  const handleDeleteUser = async () => {
-    if (window.confirm("Você tem certeza que deseja excluir sua conta?")) {
-      const response = await fetch(`http://localhost:8080/caminho/2/deletaruser`, { 
-        method: 'DELETE',
-      });
-  
-      if (response.ok) {
-        alert("Usuário excluído com sucesso!");
-        handleLogout(); // Faz logout após a exclusão
-      } else {
-        alert("Erro ao excluir usuário.");
-      }
+
+    if (localStorage.getItem(username)) {
+      alert("Usuário já registrado. Por favor, faça login.");
+      return;
     }
+
+    localStorage.setItem(username, password);
+    alert("Usuário registrado com sucesso! Faça login.");
+    setIsRegistering(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('loggedInUser');
+    setUsername('');
+    setPassword('');
+    setIsLoggedIn(false);
   };
   
 
@@ -429,12 +361,6 @@ export default function Servicos() {
               className="py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300"
             >
               Logout
-            </button>
-            <button
-              onClick={handleDeleteUser}
-              className="py-2 px-4 bg-red-700 text-white rounded-lg hover:bg-red-600 transition duration-300"
-            >
-              Excluir Conta
             </button>
           </div>
 
