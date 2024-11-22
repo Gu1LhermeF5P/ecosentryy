@@ -208,31 +208,52 @@ export default function Servicos() {
   };
 
   const handleRegister = () => {
-    if (username && password) {
-      fetch('http://localhost:8080/caminho/cadastro', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            alert("Conta criada com sucesso! Faça login.");
-            setIsRegistering(false);
-          } else {
-            alert("Erro ao criar conta.");
-          }
-        })
-        .catch(error => {
-          console.error("Erro ao cadastrar:", error);
-          alert("Erro ao tentar registrar. Tente novamente.");
-        });
-    } else {
+    // Verifica se o username e password foram fornecidos
+    if (!username || !password) {
       alert("Por favor, preencha ambos os campos.");
+      return;
     }
-  };
+  
+    // Dados que serão enviados
+    const userData = {
+      username: username.trim(),
+      password: password.trim()
+    };
+  
+    // Envia os dados para o backend
+    fetch('http://localhost:8080/caminho/cadastro', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData)
+    })
+      .then(response => {
+        if (!response.ok) {
+          return response.text().then(errorMsg => {
+            throw new Error(`Erro HTTP: ${response.status} - ${errorMsg}`);
+          });
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.success) {
+          // Salva os dados no localStorage
+          localStorage.setItem(`${username}-password`, password);
+          localStorage.setItem('username', username);
+          alert("Conta criada com sucesso! Faça login.");
+          setIsRegistering(false); // Exibe a tela de login, se necessário
+        } else {
+          alert("Erro ao criar conta. Detalhes: " + data.message);
+        }
+      })
+      .catch(error => {
+        console.error("Erro ao cadastrar:", error);
+        alert("Erro ao tentar registrar. Tente novamente.");
+      });
+  };  
+  
+  
   const handleLogout = () => {
     // Limpar os dados do localStorage
     localStorage.removeItem('username');
@@ -244,8 +265,6 @@ export default function Servicos() {
     // Você pode redirecionar o usuário para a página inicial ou de login, se desejar
     window.location.href = "/ecoquiz";
   };
-  
-  
   
   // Função para excluir um usuário
   const handleDeleteUser = async () => {
@@ -339,7 +358,7 @@ export default function Servicos() {
               </button>
               <div className="mt-4 text-center">
                 <span className="text-sm">Não tem uma conta? </span>
-                <button
+                <button 
                   onClick={() => setIsRegistering(true)}
                   className="text-sm text-green-700 hover:underline"
                 >

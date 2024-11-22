@@ -47,7 +47,7 @@ export default function Header() {
           } text-black font-medium py-2 px-4 rounded-full text-base sm:text-lg text-center`}
         >
           <Link href="/projetos">Projetos</Link>
-        </li>
+        </li>        
         <li
           className={`transition duration-300 ${
             activePath === "/contato" ? "bg-lime-300" : "bg-lime-300 hover:bg-lime-500"
